@@ -30,8 +30,8 @@ app.use(helmet());
 app.use(cors({ 
   origin: [
     'http://localhost:3000', 
-    'https://cookmate-frontend.vercel.app',
-    process.env.CORS_ORIGIN || ''
+    'https://cookmate-flame.vercel.app',
+    process.env.CLIENT_ORIGIN || ''
   ].filter(url => url !== ''),
   credentials: true
 }));
