@@ -23,17 +23,23 @@ for (const [key, value] of Object.entries(requiredEnvVars)) {
 }
 
 console.log('All required environment variables are present');
+console.log('CLIENT_ORIGIN:', process.env.CLIENT_ORIGIN);
+console.log('CORS_ORIGIN:', process.env.CORS_ORIGIN);
 
 const app = express();
 
 app.use(helmet());
 app.use(cors({ 
   origin: [
-    'http://localhost:3000', 
+    'http://localhost:3000',
     'https://cookmate-flame.vercel.app',
-    process.env.CLIENT_ORIGIN || ''
+    'https://cookmate-frontend.vercel.app', // fallback
+    process.env.CLIENT_ORIGIN || '',
+    process.env.CORS_ORIGIN || ''
   ].filter(url => url !== ''),
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 app.use(express.json());
 app.use(morgan('combined'));
