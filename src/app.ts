@@ -10,7 +10,14 @@ import { translateText, translateBatch, detectLanguage, SUPPORTED_LANGUAGES, typ
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000' }));
+app.use(cors({ 
+  origin: [
+    'http://localhost:3000', 
+    'https://cookmate-frontend.vercel.app',
+    process.env.CORS_ORIGIN || ''
+  ].filter(url => url !== ''),
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan('combined'));
 
