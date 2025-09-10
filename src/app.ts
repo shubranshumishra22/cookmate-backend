@@ -7,6 +7,23 @@ import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { translateText, translateBatch, detectLanguage, SUPPORTED_LANGUAGES, type LanguageCode } from './translation.js';
 
+// Validate required environment variables
+const requiredEnvVars = {
+  SUPABASE_URL: process.env.SUPABASE_URL,
+  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY
+};
+
+for (const [key, value] of Object.entries(requiredEnvVars)) {
+  if (!value) {
+    console.error(`Missing required environment variable: ${key}`);
+    process.exit(1);
+  }
+}
+
+console.log('All required environment variables are present');
+
 const app = express();
 
 app.use(helmet());
